@@ -1,0 +1,63 @@
+############################
+# Build directories
+############################
+/build/
+/out/
+/x64/
+/Debug/
+/Release/
+/dist/
+/bin/
+/obj/
+
+############################
+# Visual Studio Files
+############################
+.vs/
+*.vcxproj.user
+*.vcxproj.filters
+*.suo
+*.user
+*.opensdf
+*.sdf
+*.cachefile
+*.pdb
+*.ipch
+
+############################
+# Qt Auto-Generated Files
+############################
+moc_*.cpp
+moc_*.h
+ui_*.h
+qrc_*.cpp
+*.qrc.dep
+*.moc
+
+############################
+# Executables & Libraries
+############################
+*.exe
+*.dll
+*.lib
+*.a
+*.so
+*.dylib
+
+############################
+# Logs & Temp Files
+############################
+*.log
+*.tmp
+*.temp
+
+############################
+# Backup / Misc
+############################
+*.bak
+*.old
+*.orig
+*.swp
+*.zip
+*.tar
+*.gz
