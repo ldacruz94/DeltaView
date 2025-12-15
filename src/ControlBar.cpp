@@ -21,12 +21,29 @@ ControlBar::ControlBar(QWidget* parent) : QWidget(parent) {
 		"}"
 	);
 
+	clearButton = new QPushButton("Clear", this);
+	clearButton->setFixedWidth(100);
+	clearButton->setCursor(Qt::PointingHandCursor);
+	clearButton->setStyleSheet(
+		"QPushButton {"
+		"	background-color: #6e788a;"
+		"	color: white;"
+		"	border-radius: 5px;"
+		"	padding: 6px 12px;"
+		"}"
+		"QPushButton:hover {"
+		"	background-color: #9ba4b3;"
+		"}"
+	);
+
 	controlBarLayout = new QHBoxLayout(this);
 	controlBarLayout->addStretch();
+	controlBarLayout->addWidget(clearButton);
 	controlBarLayout->addWidget(compareButton);
 
 	controlBarLayout->setContentsMargins(0, 0, 0, 0);
-	controlBarLayout->setSpacing(0);
+	controlBarLayout->setSpacing(10);
 
 	connect(compareButton, &QPushButton::clicked, this, &ControlBar::compareRequested);
+	connect(clearButton, &QPushButton::clicked, this, &ControlBar::clearRequested);
 }

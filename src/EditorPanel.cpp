@@ -20,10 +20,18 @@ EditorPanel::EditorPanel(QWidget* parent) : QWidget(parent)
 	layout->addWidget(splitter);
 }
 
-QString EditorPanel::getRightEditText() const {
+QString EditorPanel::getRightEditText() const 
+{
 	return rightTextEdit->toPlainText();
 }
 
-QString EditorPanel::getLeftEditText() const {
+QString EditorPanel::getLeftEditText() const 
+{
 	return leftTextEdit->toPlainText();
+}
+
+void EditorPanel::clearAll() 
+{
+	rightTextEdit->clear();
+	leftTextEdit->clear();
 }

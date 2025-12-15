@@ -14,8 +14,10 @@ public:
 
 	signals:
 		void compareRequested();
+		void clearRequested();
 
 private:
 	QHBoxLayout* controlBarLayout{};
 	QPushButton* compareButton{};
+	QPushButton* clearButton{};
 };

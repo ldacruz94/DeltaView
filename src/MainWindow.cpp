@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget* parent) : QWidget(parent) {
 	layout->addWidget(output);
 
 	connect(controlBar, &ControlBar::compareRequested, this, &MainWindow::onCompareClicked);
+	connect(controlBar, &ControlBar::clearRequested, this, &MainWindow::onClearClicked);
 }
 
 void MainWindow::onCompareClicked() const 
@@ -81,4 +82,11 @@ void MainWindow::onCompareClicked() const
 	}
 
 	output->displayResults();
+}
+
+void MainWindow::onClearClicked() const 
+{
+	output->hideResults();
+	output->clearResults();
+	editorPanel->clearAll();
 }

@@ -1,7 +1,7 @@
 ############################
 # Build directories
 ############################
-DeltaView/x64/*
+DeltaView/x64/*                                                                                                  
 /build/
 /out/
 /x64/
@@ -10,7 +10,7 @@ DeltaView/x64/*
 /dist/
 /bin/
 /obj/
-
+                                                        
 ############################
 # Visual Studio Files
 ############################

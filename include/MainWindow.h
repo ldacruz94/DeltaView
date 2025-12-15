@@ -16,6 +16,7 @@ public:
 
 private slots:
 	void onCompareClicked() const;
+	void onClearClicked() const;
 
 private:
 	EditorPanel* editorPanel;

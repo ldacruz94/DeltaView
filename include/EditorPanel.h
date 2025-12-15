@@ -14,6 +14,7 @@ public:
 	explicit EditorPanel(QWidget* parent = nullptr);
 	QString getRightEditText() const;
 	QString getLeftEditText() const;
+	void clearAll();
 
 private:
 	QSplitter* splitter{};
