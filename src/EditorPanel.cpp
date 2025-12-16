@@ -3,17 +3,46 @@
 #include <QSplitter>
 #include <QPlainTextEdit>
 #include <QVBoxLayout>
+#include <QLabel>
 
 EditorPanel::EditorPanel(QWidget* parent) : QWidget(parent) 
 {
-	splitter = new QSplitter(this);
+	splitter = new QSplitter(Qt::Horizontal, this);
 
-	leftTextEdit = new QPlainTextEdit(splitter);
-	rightTextEdit = new QPlainTextEdit(splitter);
+	// the Left side (original)
+	auto* leftContainer = new QWidget(splitter);
+	auto* leftLayout = new QVBoxLayout(leftContainer);
+	leftLayout->setContentsMargins(4, 4, 4, 4);
+	leftLayout->setSpacing(4);
 
-	splitter->addWidget(leftTextEdit);
-	splitter->addWidget(rightTextEdit);
+	auto* leftLabel = new QLabel("Original", leftContainer);
+	leftLabel->setStyleSheet("font-weight: bold;");
 
+	leftTextEdit = new QPlainTextEdit(leftContainer);
+
+	leftLayout->addWidget(leftLabel);
+	leftLayout->addWidget(leftTextEdit);
+
+	// the Right Side (modified)
+	auto* rightContainer = new QWidget(splitter);
+	auto* rightLayout = new QVBoxLayout(rightContainer);
+	rightLayout->setContentsMargins(4, 4, 4, 4);
+	rightLayout->setSpacing(4);
+
+	auto* rightLabel = new QLabel("Modified", rightContainer);
+	rightLabel->setStyleSheet("font-weight: bold;");
+
+	rightTextEdit = new QPlainTextEdit(rightContainer);
+
+	rightLayout->addWidget(rightLabel);
+	rightLayout->addWidget(rightTextEdit);
+
+	splitter->addWidget(leftContainer);
+	splitter->addWidget(rightContainer);
+	splitter->setStretchFactor(0, 1);
+	splitter->setStretchFactor(1, 1);
+
+	// Main layout
 	layout = new QVBoxLayout(this);
 	layout->setContentsMargins(0, 0, 0, 0);
 	layout->setSpacing(0);
