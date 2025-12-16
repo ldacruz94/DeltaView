@@ -3,6 +3,7 @@
 #include "ControlBar.h"
 #include "EditorPanel.h"
 #include "ResultsOutput.h"
+#include "DiffEngine.h"
 
 #include <QWidget>
 
@@ -22,4 +23,5 @@ private:
 	EditorPanel* editorPanel;
 	ControlBar* controlBar{};
 	ResultsOutput* output{};
+	DiffEngine* engine{};
 };

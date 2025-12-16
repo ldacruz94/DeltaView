@@ -1,7 +1,4 @@
 #include "include/MainWindow.h"
-#include "include/ControlBar.h"
-#include "include/EditorPanel.h"
-#include "include/ResultsOutput.h"
 
 #include <QVBoxLayout>
 #include <QRegularExpression>
@@ -12,6 +9,7 @@ MainWindow::MainWindow(QWidget* parent) : QWidget(parent) {
 	controlBar = new ControlBar(this);
 	editorPanel = new EditorPanel(this);
 	output = new ResultsOutput(this);
+	engine = new DiffEngine();
 
 	auto* layout = new QVBoxLayout(this);
 	layout->addWidget(controlBar);
@@ -27,61 +25,19 @@ void MainWindow::onCompareClicked() const
 	output->hideResults();
 	output->clearResults();
 
-	const QStringList leftLines = editorPanel->getLeftEditText().split("\n");
-	const QStringList rightLines = editorPanel->getRightEditText().split("\n");
+	const QString leftText = editorPanel->getLeftEditText();
+	const QString rightText = editorPanel->getRightEditText();
 
-	std::vector<QString> diffWords;
-	bool bothSidesEqual = true;
+	std::vector<Token> leftTokens = engine->tokenizeWords(leftText);
+	std::vector<Token> rightTokens = engine->tokenizeWords(rightText);
 
-	const int lineCount = std::min(leftLines.size(), rightLines.size());
+	std::vector<std::vector<int>> lcsTable = engine->buildLcsTable(leftTokens, rightTokens);
 
-	for (int i = 0; i < lineCount; ++i) 
-	{
-		if (leftLines[i] != rightLines[i])
-		{
-			QStringList leftSplitterWords = leftLines[i].split(QRegularExpression("\\s+"), Qt::SkipEmptyParts);
-			QStringList rightSplitterWords = rightLines[i].split(QRegularExpression("\\s+"), Qt::SkipEmptyParts);
+	std::vector<Op> operations = engine->backtrackOps(leftTokens, rightTokens, lcsTable);
 
-			for (const auto& rightWord : rightSplitterWords) 
-			{
-				bool found = false;
-				for (const auto& leftWord : leftSplitterWords)
-				{
-					if (leftWord == rightWord) 
-					{
-						found = true;
-						break;
-					}
-				}
-				if (!found)
-				{
-					bothSidesEqual = false;
-					diffWords.push_back(rightWord);
-				}
-			}
-		}
-	}
+	editorPanel->applyDiffHighlights(leftTokens, rightTokens, operations);
 
-	for (const auto& word : diffWords) 
-	{
-		qDebug() << word;
-	}
-
-	if (bothSidesEqual)
-	{
-		output->setText("Both sides are EQUAL");
-	}
-	else
-	{
-		QString text = "Both sides are NOT EQUAL\n\nDifferent words:\n";
-		for (const auto& w : diffWords)
-		{
-			text += w + "\n";
-		}
-		output->setText(text);
-	}
-
-	output->displayResults();
+	output->displayResults(editorPanel->getTotalInsertions(), editorPanel->getTotalDeletions());
 }
 
 void MainWindow::onClearClicked() const 

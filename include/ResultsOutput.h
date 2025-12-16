@@ -13,8 +13,7 @@ public:
 	explicit ResultsOutput(QWidget* parent = nullptr);
 	void clearResults();
 	void hideResults();
-	void displayResults();
-	void setText(const QString& text);
+	void displayResults(int insertions, int deletions);
 
 private:
 	QPlainTextEdit* output{};

@@ -93,6 +93,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\ControlBar.cpp" />
+    <ClCompile Include="src\DiffEngine.cpp" />
     <ClCompile Include="src\EditorPanel.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainWindow.cpp" />
@@ -115,6 +116,11 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\ResultsOutput.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\DiffEngine.h" />
+    <ClInclude Include="include\Op.h" />
+    <ClInclude Include="include\Token.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
