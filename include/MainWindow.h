@@ -18,6 +18,8 @@ public:
 private slots:
 	void onCompareClicked() const;
 	void onClearClicked() const;
+	void on_open_left_file();
+	void on_open_right_file();
 
 private:
 	EditorPanel* editorPanel;

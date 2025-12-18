@@ -4,9 +4,13 @@
 #include <QPlainTextEdit>
 #include <QVBoxLayout>
 #include <QLabel>
+#include <QPushButton>
 
 EditorPanel::EditorPanel(QWidget* parent) : QWidget(parent) 
 {
+	this->total_deletions_ = 0;
+	this->total_insertions_ = 0;
+
 	splitter = new QSplitter(Qt::Horizontal, this);
 
 	// the Left side (original)
@@ -15,12 +19,22 @@ EditorPanel::EditorPanel(QWidget* parent) : QWidget(parent)
 	leftLayout->setContentsMargins(4, 4, 4, 4);
 	leftLayout->setSpacing(4);
 
+	auto* left_header_row = new QHBoxLayout();
+	left_header_row->setContentsMargins(0, 0, 0, 0);
+
 	auto* leftLabel = new QLabel("Original", leftContainer);
 	leftLabel->setStyleSheet("font-weight: bold;");
 
+	left_open_file_button_ = new QPushButton("Open", this);
+	left_open_file_button_->setFixedHeight(24);
+
+	left_header_row->addWidget(leftLabel);
+	left_header_row->addStretch();
+	left_header_row->addWidget(left_open_file_button_);
+
 	leftTextEdit = new QPlainTextEdit(leftContainer);
 
-	leftLayout->addWidget(leftLabel);
+	leftLayout->addLayout(left_header_row);
 	leftLayout->addWidget(leftTextEdit);
 
 	// the Right Side (modified)
@@ -29,12 +43,22 @@ EditorPanel::EditorPanel(QWidget* parent) : QWidget(parent)
 	rightLayout->setContentsMargins(4, 4, 4, 4);
 	rightLayout->setSpacing(4);
 
+	auto* right_header_row = new QHBoxLayout();
+	right_header_row->setContentsMargins(0, 0, 0, 0);
+
 	auto* rightLabel = new QLabel("Modified", rightContainer);
 	rightLabel->setStyleSheet("font-weight: bold;");
 
+	right_open_file_button_ = new QPushButton("Open", this);
+	right_open_file_button_->setFixedHeight(24);
+
+	right_header_row->addWidget(rightLabel);
+	right_header_row->addStretch();
+	right_header_row->addWidget(right_open_file_button_);
+
 	rightTextEdit = new QPlainTextEdit(rightContainer);
 
-	rightLayout->addWidget(rightLabel);
+	rightLayout->addLayout(right_header_row);
 	rightLayout->addWidget(rightTextEdit);
 
 	splitter->addWidget(leftContainer);
@@ -47,6 +71,10 @@ EditorPanel::EditorPanel(QWidget* parent) : QWidget(parent)
 	layout->setContentsMargins(0, 0, 0, 0);
 	layout->setSpacing(0);
 	layout->addWidget(splitter);
+
+	// connectors
+	connect(left_open_file_button_, &QPushButton::clicked, this, &EditorPanel::open_left_file_button_requested);
+	connect(right_open_file_button_, &QPushButton::clicked, this, &EditorPanel::open_right_file_button_requested);
 }
 
 QString EditorPanel::getRightEditText() const 
@@ -59,7 +87,7 @@ QString EditorPanel::getLeftEditText() const
 	return leftTextEdit->toPlainText();
 }
 
-void EditorPanel::clearAll() 
+void EditorPanel::clearAll() const
 {
 	rightTextEdit->clear();
 	leftTextEdit->clear();
